@@ -1,3 +1,14 @@
+"""
+ * This file is part of the Sandy Andryanto Company Profile Website.
+ *
+ * @author     Sandy Andryanto <sandy.andryanto404@gmail.com>
+ * @copyright  2024
+ *
+ * For the full copyright and license information,
+ * please view the LICENSE.md file that was distributed
+ * with this source code.
+"""
+
 from django.db import models
 from django.contrib.auth.models import User # new
 
@@ -225,20 +236,19 @@ class PortfolioImage(models.Model):
     def __str__(self):
         return self.image
     
-class Person(models.Model):
+class UserDetail(models.Model):
 
     class Meta:
-        db_table = "auth_persons"
+        db_table = "auth_user_details"
 
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     image = models.CharField(max_length=255, null=True, db_index=True)
     gender = models.IntegerField(default=0, db_index=True)
-    birth_date = models.DateField(null=True, db_index=True)
+    country = models.CharField(max_length=191, null=True, db_index=True)
     address = models.TextField(null=True)
     about_me = models.TextField(null=True)
-    facebook = models.CharField(max_length=255, null=True, db_index=True)
-    twitter = models.CharField(max_length=255, null=True, db_index=True)
-    instagram = models.CharField(max_length=255, null=True, db_index=True)
+    reset_token = models.CharField(max_length=191, null=True, db_index=True)
+    confirm_token = models.CharField(max_length=191, null=True, db_index=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, db_index=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, db_index=True)
 
@@ -247,66 +257,5 @@ class Person(models.Model):
     def __str__(self):
         return self.token
     
-class Verification(models.Model):
 
-    class Meta:
-        db_table = "auth_users_verifications"
-
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    status = models.SmallIntegerField(default=0, db_index=True)
-    token = models.CharField(max_length=255, null=False, db_index=True)
-    expired_at = models.DateTimeField(null=True, db_index=True)
-    created_at = models.DateTimeField(auto_now_add=True, null=True, db_index=True)
-    updated_at = models.DateTimeField(auto_now=True, null=True, db_index=True)
-
-    # renames the instances of the model
-    # with their title name
-    def __str__(self):
-        return self.token
     
-class Notification(models.Model):
-
-    class Meta:
-        db_table = "auth_notifications"
-
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    subject = models.CharField(max_length=255, null=False, db_index=True)
-    content = models.TextField(null=True)
-    status = models.SmallIntegerField(default=0, db_index=True)
-    created_at = models.DateTimeField(auto_now_add=True, null=True, db_index=True)
-    updated_at = models.DateTimeField(auto_now=True, null=True, db_index=True)
-
-    # renames the instances of the model
-    # with their title name
-    def __str__(self):
-        return self.subject
-    
-class PasswordReset(models.Model):
-
-    class Meta:
-        db_table = "auth_password_resets"
-
-    email = models.CharField(max_length=191, null=True, db_index=True)
-    token = models.CharField(max_length=191, null=True, db_index=True)
-    created_at = models.DateTimeField(auto_now_add=True, null=True, db_index=True)
-    updated_at = models.DateTimeField(auto_now=True, null=True, db_index=True)
-
-    # renames the instances of the model
-    # with their title name
-    def __str__(self):
-        return self.name
-    
-class LoginAttempt(models.Model):
-
-    class Meta:
-        db_table = "auth_login_attempts"
-
-    ip_address = models.CharField(max_length=191, null=True, db_index=True)
-    login = models.CharField(max_length=191, null=True, db_index=True)
-    created_at = models.DateTimeField(auto_now_add=True, null=True, db_index=True)
-    updated_at = models.DateTimeField(auto_now=True, null=True, db_index=True)
-
-    # renames the instances of the model
-    # with their title name
-    def __str__(self):
-        return self.name
