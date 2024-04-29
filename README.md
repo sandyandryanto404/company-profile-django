@@ -113,7 +113,7 @@ python manage.py runserver 8000 or python3 manage.py runserver 8000
 npm install
 ```
 
-#### 6. Make a .env.local file and customize its settings 
+#### 6. Make a .env file and customize its settings 
 ```shell
 REACT_APP_TITLE="My Website"
 REACT_APP_BACKEND_URL=http://localhost:8000
