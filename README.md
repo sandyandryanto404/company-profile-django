@@ -87,7 +87,17 @@ cd company-profile-django
 pip install -r requirements.txt or pip3 install -r requirements.txt
 ```
 
-
+#### 3. Make a .env file and customize its settings 
+```shell
+DJANGO_SECRET_KEY=secret
+DJANGO_DATABASE_HOST={app-database-host}
+DJANGO_DATABASE_NAME={app-database-name}
+DJANGO_DATABASE_USERNAME={app-database-username}
+DJANGO_DATABASE_PASSWORD={app-database-password}
+DJANGO_DATABASE_PORT={app-database-port}
+DJANGO_TIME_ZONE=3306
+DJANGO_UPLOAD_PATH=
+```
 
 #### 4. Start MySQL / Maria DB Service , Seed data and Running REST API
 ```shell
