@@ -95,8 +95,7 @@ DJANGO_DATABASE_NAME={app-database-name}
 DJANGO_DATABASE_USERNAME={app-database-username}
 DJANGO_DATABASE_PASSWORD={app-database-password}
 DJANGO_DATABASE_PORT={app-database-port}
-DJANGO_TIME_ZONE=3306
-DJANGO_UPLOAD_PATH=
+DJANGO_TIME_ZONE=UTC
 ```
 
 #### 4. Start MySQL / Maria DB Service , Seed data and Running REST API

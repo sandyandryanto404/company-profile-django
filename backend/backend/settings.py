@@ -101,7 +101,7 @@ DJANGO_DATABASE_PORT = os.getenv("DJANGO_DATABASE_PORT")
 
 DATABASES = {
     'default': {
-        'ENGINE': 'mysql.connector.django',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': DJANGO_DATABASE_NAME,
         'USER': DJANGO_DATABASE_USERNAME,
         'PASSWORD': DJANGO_DATABASE_PASSWORD,
