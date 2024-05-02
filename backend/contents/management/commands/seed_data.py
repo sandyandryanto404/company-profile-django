@@ -40,6 +40,8 @@ class Command(BaseCommand):
         total_rows = User.objects.count()
         if total_rows == 0:
             for i in range(10):
+                
+                gender_str = "M"
                 gender = random.randint(1,2)
                 fake = Faker()
                 username = fake.user_name()
@@ -50,6 +52,7 @@ class Command(BaseCommand):
                 last_name = fake.last_name()
 
                 if gender == 2:
+                    gender_str = "F"
                     first_name = fake.first_name_female()
                     last_name = fake.last_name_female()
 
@@ -70,7 +73,7 @@ class Command(BaseCommand):
                 
                 userDetail = UserDetail.objects.create(
                     user = user,
-                    gender = gender,
+                    gender = gender_str,
                     address = fake.street_address(),
                     about_me = fake.paragraph(nb_sentences=5),
                     country = fake.country(),
@@ -322,6 +325,7 @@ class Command(BaseCommand):
                     author=user,
                     title=title,
                     slug=slug,
+                    description = fake.paragraph(nb_sentences=5),
                     content=fake.paragraph(nb_sentences=10),
                     status=1
                 )

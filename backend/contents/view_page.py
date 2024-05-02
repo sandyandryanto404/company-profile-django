@@ -5,6 +5,12 @@ from rest_framework import status
 from django.conf import settings
 from django.http import HttpResponse
 from os.path import exists
+from faker import Faker
+from django.db.models import F
+from contents.models import *
+from django.db import connection
+
+
 
 class Page(View):
     
@@ -18,10 +24,61 @@ class Page(View):
         
     @api_view(['GET'])
     def home(request):
+        
+        results = []
+        query = """
+            SELECT
+                a.id,
+                a.title,
+                a.slug,
+                a.description,
+                u.first_name,
+                u.last_name,
+                ud.about_me,
+                (
+                SELECT 
+                        GROUP_CONCAT(r.name SEPARATOR ',') AS r 
+                        FROM `references` r
+                        WHERE r.id IN (
+                            SELECT reference_id
+                            FROM articles_references
+                            WHERE article_id = a.id
+                        )
+                ) as categories
+            FROM
+                articles a
+            INNER JOIN auth_user u ON u.id = a.author_id
+            INNER JOIN auth_user_details ud ON ud.user_id = u.id
+            WHERE
+                status = 1
+            ORDER BY RAND()
+            LIMIT 3
+        """
+        with connection.cursor() as cursor:
+            cursor.execute(query)
+            desc = cursor.description
+            results = [
+                dict(zip([col[0] for col in desc], row)) 
+                for row in cursor.fetchall() 
+            ] 
+ 
+        
+        fake = Faker()
+        data = {
+            'header': {
+                'title':fake.paragraph(nb_sentences=2),
+                'description':fake.paragraph(nb_sentences=10)
+            },
+            'sliders': Slider.objects.filter(status=1).order_by("sort").values(),
+            'services': Service.objects.filter(status=1).order_by("?")[:4].values(),
+            'testimonial': Testimonial.objects.filter(status=1).order_by("?").values().first(),
+            'articles':results
+        }
+        
         return Response({ 
             'status': True, 
             'message': 'ok', 
-            'data': None
+            'data': data
         }, status=status.HTTP_200_OK)
         
     @api_view(['GET'])

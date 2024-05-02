@@ -97,6 +97,7 @@ class Article(models.Model):
     image = models.CharField(max_length=191, null=False, db_index=True)
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     title = models.CharField(max_length=255, null=False, db_index=True)
+    description = models.TextField(null=True)
     slug = models.CharField(max_length=255, null=False, db_index=True)
     content = models.TextField(null=False)
     status = models.SmallIntegerField(default=0, db_index=True)
@@ -243,7 +244,7 @@ class UserDetail(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     image = models.CharField(max_length=255, null=True, db_index=True)
-    gender = models.IntegerField(default=0, db_index=True)
+    gender = models.CharField(max_length=2, null=True, db_index=True)
     country = models.CharField(max_length=191, null=True, db_index=True)
     address = models.TextField(null=True)
     about_me = models.TextField(null=True)
