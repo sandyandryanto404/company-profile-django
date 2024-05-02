@@ -1,3 +1,13 @@
+"""
+ * This file is part of the Sandy Andryanto Company Profile Website.
+ *
+ * @author     Sandy Andryanto <sandy.andryanto404@gmail.com>
+ * @copyright  2024
+ *
+ * For the full copyright and license information,
+ * please view the LICENSE.md file that was distributed
+ * with this source code.
+"""
 from django.views import View
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response

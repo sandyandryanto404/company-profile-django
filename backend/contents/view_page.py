@@ -1,7 +1,18 @@
+"""
+ * This file is part of the Sandy Andryanto Company Profile Website.
+ *
+ * @author     Sandy Andryanto <sandy.andryanto404@gmail.com>
+ * @copyright  2024
+ *
+ * For the full copyright and license information,
+ * please view the LICENSE.md file that was distributed
+ * with this source code.
+"""
 from django.views import View
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from django.forms.models import model_to_dict
 from django.conf import settings
 from django.http import HttpResponse
 from os.path import exists
@@ -83,26 +94,63 @@ class Page(View):
         
     @api_view(['GET'])
     def about(request):
+        
+        fake = Faker()
+        data = {
+            'header': {
+                'title':fake.paragraph(nb_sentences=2),
+                'description':fake.paragraph(nb_sentences=10)
+            },
+            'section1': {
+                'title':fake.paragraph(nb_sentences=2),
+                'description':fake.paragraph(nb_sentences=10)
+            },
+            'section2': {
+                'title':fake.paragraph(nb_sentences=2),
+                'description':fake.paragraph(nb_sentences=10)
+            },
+            'teams': Team.objects.filter(status=1).order_by("sort").values(),
+        }
+
         return Response({ 
             'status': True, 
             'message': 'ok', 
-            'data': None
+            'data': data
         }, status=status.HTTP_200_OK)
         
     @api_view(['GET'])
     def service(request):
+        
+        fake = Faker()
+        data = {
+            'header': {
+                'title':fake.paragraph(nb_sentences=2),
+                'description':fake.paragraph(nb_sentences=10)
+            },
+            'services': Service.objects.filter(status=1).order_by("?").values(),
+            'customers': Customer.objects.filter(status=1).order_by("?").values(),
+            'testimonials': Testimonial.objects.filter(status=1).order_by("?").values()
+        }
+
         return Response({ 
             'status': True, 
             'message': 'ok', 
-            'data': None
+            'data': data
         }, status=status.HTTP_200_OK)
         
     @api_view(['GET'])
     def faq(request):
+
+        fake = Faker()
+        data = {
+            'faq1': Faq.objects.filter(status=1).filter(sort__lte=5).order_by("?").values(),
+            'faq2': Faq.objects.filter(status=1).filter(sort__gt=5).order_by("?").values()
+        } 
+
         return Response({ 
             'status': True, 
             'message': 'ok', 
-            'data': None
+            'data': data
         }, status=status.HTTP_200_OK)
         
     @api_view(['GET'])
@@ -110,19 +158,47 @@ class Page(View):
         return Response({ 
             'status': True, 
             'message': 'ok', 
-            'data': None
+            'data': {
+                'services': Service.objects.filter(status=1).order_by("?")[:4].values()
+            }
         }, status=status.HTTP_200_OK)
         
     @api_view(['POST'])
     def message(request):
+        
+        if "name" not in request.data:
+            return Response({ 'status': False, 'message': "The field 'name' can not be empty!", 'data': None }, status=status.HTTP_400_BAD_REQUEST)
+
+        if "email" not in request.data:
+            return Response({ 'status': False, 'message': "The field 'email' can not be empty!", 'data': None }, status=status.HTTP_400_BAD_REQUEST)
+
+        if "subject" not in request.data:
+            return Response({ 'status': False, 'message': "The field 'subject' can not be empty!", 'data': None }, status=status.HTTP_400_BAD_REQUEST)
+
+        if "message" not in request.data:
+            return Response({ 'status': False, 'message': "The field 'message' can not be empty!", 'data': None }, status=status.HTTP_400_BAD_REQUEST)
+
+        contact = Contact.objects.create(
+           name = request.data["name"],
+           email = request.data["email"],
+           subject = request.data["subject"],
+           message = request.data["message"],
+           status = 0
+        )
+        contact.save()
+
         return Response({ 
             'status': True, 
             'message': 'ok', 
-            'data': None
+            'data': model_to_dict(contact)
         }, status=status.HTTP_200_OK)
         
     @api_view(['POST'])
     def subscribe(request):
+        
+        if "email" not in request.data:
+            return Response({ 'status': False, 'message': "The field 'email' can not be empty!", 'data': None }, status=status.HTTP_400_BAD_REQUEST)
+
         return Response({ 
             'status': True, 
             'message': 'ok', 
