@@ -14,23 +14,23 @@ import service from './service'
 class AuthService {
 
     login(data){
-        return service().post("api/auth/login", data)
+        return service().post("auth/login", data)
     }
 
     register(data){
-        return service().post("api/auth/register", data)
+        return service().post("auth/register", data)
     }
 
     confirm(token){
-        return service().get("api/auth/confirm/"+token)
+        return service().get("auth/confirm/"+token)
     }
 
     emailForgot(data){
-        return service().post("api/auth/email/forgot", data)
+        return service().post("auth/email/forgot", data)
     }
 
     resetPassword(token, data){
-        return service().post("api/auth/email/reset/"+token, data)
+        return service().post("auth/email/reset/"+token, data)
     }
 
 }

@@ -15,7 +15,7 @@ class Login extends Component{
             loading: true,
             auth: localStorage.getItem("token") !== null,
             fields: {
-                email: "",
+                username: "",
                 password: "",
                 remember_me: ""
             },
@@ -24,7 +24,7 @@ class Login extends Component{
         }
         this.form = new ReactFormInputValidation(this);
         this.form.useRules({
-            email: "required",
+            username: "required",
             password: "required",
             remember: "string"
         });
@@ -51,9 +51,7 @@ class Login extends Component{
                     window.location.href = "/"
                 }, 2000)
             }).catch((error) => {
-                let response = error.response
-                let data = response.data
-                let message = data.errors
+                let message = error.response.data.non_field_errors[0]
                 this.setState({
                     loadingSubmit: false,
                     message: message
@@ -109,21 +107,21 @@ class Login extends Component{
                                             <div className="input-group mb-3">
                                                 
                                                 <input
-                                                    type="email"
-                                                    name="email"
-                                                    className={this.state.errors.email ? "form-control is-invalid" : "form-control"}
-                                                    placeholder="Email Address"
+                                                    type="text"
+                                                    name="username"
+                                                    className={this.state.errors.username ? "form-control is-invalid" : "form-control"}
+                                                    placeholder="Your Username"
                                                     onBlur={this.form.handleBlurEvent}
                                                     onChange={this.form.handleChangeEvent}
-                                                    value={this.state.fields.email}
+                                                    value={this.state.fields.username}
                                                     readOnly={this.state.loadingSubmit}
                                                 />
 
                                                 <span className="input-group-text" id="basic-addon1">
-                                                    <i className="bi bi-envelope"></i>
+                                                    <i className="bi bi-person"></i>
                                                 </span>
                                                 <div className="invalid-feedback">
-                                                    {this.state.errors.email ? this.state.errors.email : ""}
+                                                    {this.state.errors.username ? this.state.errors.username : ""}
                                                 </div>
                                             </div>
                                             <div className="input-group mb-3">

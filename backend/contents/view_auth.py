@@ -59,7 +59,7 @@ class Auth(View):
             password = password,
             is_superuser = False,       
             is_staff = True,
-            is_active = False
+            is_active = True
         )
         user.save()
         
@@ -118,7 +118,7 @@ class Auth(View):
         
         return Response({ 
             'status': True, 
-            'message': 'ok', 
+            'message': 'We have e-mailed your password reset link!', 
             'data': {
                 'token': token
             }

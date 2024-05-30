@@ -35,7 +35,7 @@ class List extends Component{
         await PortfolioService.list().then((response) => {
             setTimeout(() => { 
                 this.setState({
-                    content: response.data,
+                    content: response.data.data,
                     loading: false
                 })
             }, 1500)

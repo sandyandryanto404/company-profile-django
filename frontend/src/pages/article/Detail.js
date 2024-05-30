@@ -53,10 +53,10 @@ class Detail extends Component{
             let data = response.data
             setTimeout(() => { 
                 this.setState({
-                    content: data,
+                    content: data.data,
                     loading: false
                 })
-                this.loadComment(data.article.id)
+                this.loadComment(data.data.id)
             }, 1500)
         }).catch((error) => {
             console.log(error)
@@ -77,7 +77,7 @@ class Detail extends Component{
     async submitForm(fields){
         if(Object.keys(this.state.errors).length === 0){
             this.setState({ loadingComment: true })
-            let id = this.state.content.article.id
+            let id = this.state.content.id
             await ArticleService.commentCreate(id, fields).then((response) => {
                 setTimeout(() => { 
                     this.setState({
@@ -108,8 +108,8 @@ class Detail extends Component{
                                     <div className="d-flex align-items-center mt-lg-5 mb-4">
                                         <img className="img-fluid rounded-circle" width={50} src={this.state.content.gender === 'M' ? '/male.png' : '/female.png'} alt="..." />
                                         <div className="ms-3">
-                                            <div className="fw-bold">{this.state.content.article.user.firstName} {this.state.content.article.user.lastName}</div>
-                                            <div  className="text-muted">{this.state.content.article.user.aboutMe}</div>
+                                            <div className="fw-bold">{this.state.content.first_name} {this.state.content.last_name}</div>
+                                            <div  className="text-muted">{this.state.content.about_me}</div>
                                         </div>
                                     </div>
                                 </> }
@@ -123,12 +123,12 @@ class Detail extends Component{
                                         { this.state.loading ? <>
                                             <ShimmerText line={5} gap={10} />
                                         </> : <>
-                                            <h1 className="fw-bolder mb-1">{this.state.content.article.title}</h1>
-                                            <div className="text-muted fst-italic mb-2">{ moment(this.state.content.article.createdAt.timestamp,'X').fromNow()}</div>
+                                            <h1 className="fw-bolder mb-1">{this.state.content.title}</h1>
+                                            <div className="text-muted fst-italic mb-2">{ moment(this.state.content.created_at).fromNow()}</div>
 
-                                            {this.state.content.article.references.map((category, index)=>{
+                                            {this.state.content.categories.split(",").map((category, index)=>{
                                                 return (
-                                                    <a key={index} className="badge bg-secondary text-decoration-none link-light" href="#!">{category.name}</a>
+                                                    <a key={index} className="badge bg-secondary text-decoration-none link-light me-1" href="#!">{category}</a>
                                                 )
                                             })}
 
@@ -151,7 +151,7 @@ class Detail extends Component{
                                     </> : <>
                                     
                                         <section className="mb-5">
-                                            {this.state.content.article.content}
+                                            {this.state.content.content}
                                         </section>
                                     
                                     </> }

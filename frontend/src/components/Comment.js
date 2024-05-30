@@ -3,12 +3,6 @@ import moment from 'moment'
 
 class Comment extends Component{
 
-    constructor() {
-        super();
-        this.state = { 
-        }
-    }
-
     dateTime(value) {
         return moment(value)
     }

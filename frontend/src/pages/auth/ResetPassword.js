@@ -45,20 +45,25 @@ class ResetPassword extends Component{
     async submitForm(fields){
         if(Object.keys(this.state.errors).length === 0){
             let token = this.props.router.params.token
-            await AuthService.resetPassword(token, fields).then((result) => {
+            let formData = {
+                email: fields.email,
+                password: fields.password,
+                password_confirm: fields.password_confirmation
+            }
+            await AuthService.resetPassword(token, formData).then((result) => {
                 let data = result.data
-                let success = data.success
+                let success = data.message
                 this.setState({
                     loadingSubmit: false,
                     success: success
                 })
                 setTimeout(() => { 
                     this.props.router.navigate("/auth/login")
-                }, 2000)
+                }, 3000)
             }).catch((error) => {
                 let response = error.response
                 let data = response.data
-                let message = data.errors
+                let message = data.message
                 this.setState({
                     loadingSubmit: false,
                     message: message

@@ -14,19 +14,19 @@ import service from './service'
 class ArticleService {
 
     list(data){
-        return service().get("api/article/list", { params : data })
+        return service().get("article/list", { params : data })
     }
 
     detail(slug){
-        return service().get("api/article/detail/"+slug)
+        return service().get("article/detail/"+slug)
     }
 
     commentList(id){
-        return service().get("api/article/comment/list/"+id)
+        return service().get("article/comment/list/"+id)
     }
 
     commentCreate(id, data){
-        return service(false, true).post("api/article/comment/create/"+id, data)
+        return service(false, true).post("article/comment/create/"+id, data)
     }
 
 }

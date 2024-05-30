@@ -28,7 +28,7 @@ export default function service(upload, auth) {
 
 
     if (auth) {
-        headers.Authorization = 'Bearer ' + localStorage.getItem('token')
+        headers.Authorization = 'Token ' + localStorage.getItem('token')
     }
 
     return axios.create({baseURL: baseURL, headers: headers });

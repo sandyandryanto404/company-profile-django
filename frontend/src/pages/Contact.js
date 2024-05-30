@@ -12,6 +12,7 @@ class Contact extends Component{
             loadingSubmit:false,
             loading: true,
             content: {},
+            success: false,
             fields: {
                 name: "",
                 email: "",
@@ -63,7 +64,7 @@ class Contact extends Component{
 
     async submitForm(fields){
         if(Object.keys(this.state.errors).length === 0){
-            this.setState({ loadingSubmit: true })
+            this.setState({ loadingSubmit: true, success: false })
             await PageService.message(fields).then((response) => {
                 setTimeout(() => { 
                     this.setState({
@@ -73,7 +74,8 @@ class Contact extends Component{
                             subject: "",
                             message: ""
                         },
-                        loadingSubmit: false
+                        loadingSubmit: false,
+                        success: true
                     })
                 }, 1500)
             }).catch((error) => {
@@ -102,6 +104,14 @@ class Contact extends Component{
                                 </div>
                                 <div className="row gx-5 justify-content-center">
                                     <div className="col-lg-8 col-xl-6">
+
+                                            { this.state.success ? <>
+                                            
+                                                <div className="alert alert-success" role="alert">
+                                                    Your message has been sent. Thank you!
+                                                </div>
+                                            
+                                            </> : <></> }
                                     
                                             <form id="contactForm" noValidate autoComplete="off" onSubmit={this.form.handleSubmit} data-sb-form-api-token="API_TOKEN">
                                                 

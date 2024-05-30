@@ -15,6 +15,7 @@ class Register extends Component{
             loading: true,
             auth: localStorage.getItem("token") !== null,
             fields: {
+                username:"",
                 email: "",
                 password: "",
                 password_confirmation: ""
@@ -25,6 +26,7 @@ class Register extends Component{
         }
         this.form = new ReactFormInputValidation(this);
         this.form.useRules({
+            username: "required",
             email: "required|email",
             password: "required|min:8|confirmed",
             password_confirmation: "required"
@@ -35,6 +37,7 @@ class Register extends Component{
                 message:"",
                 loadingSubmit: true,
                 fields: {
+                    username:"",
                     email: "",
                     password: "",
                     password_confirmation: ""
@@ -46,20 +49,28 @@ class Register extends Component{
 
     async submitForm(fields){
         if(Object.keys(this.state.errors).length === 0){
-            await AuthService.register(fields).then((result) => {
+
+            let formData = {
+                username: fields.username,
+                email: fields.email,
+                password: fields.password,
+                password_confirm: fields.password_confirmation
+            }
+
+            await AuthService.register(formData).then((result) => {
                 let data = result.data
-                let success = data.success
+                let success = data.message
                 this.setState({
                     loadingSubmit: false,
                     success: success
                 })
                 setTimeout(() => { 
                     this.props.router.navigate("/auth/login")
-                }, 2000)
+                }, 3000)
             }).catch((error) => {
                 let response = error.response
                 let data = response.data
-                let message = data.errors
+                let message = data.message
                 this.setState({
                     loadingSubmit: false,
                     message: message
@@ -116,6 +127,29 @@ class Register extends Component{
                                                     <small>{this.state.success}</small>
                                                 </div>
                                             </> : <></> }
+
+                                            <div className="input-group mb-3">
+                                                
+                                                <input
+                                                    type="text"
+                                                    name="username"
+                                                    className={this.state.errors.username ? "form-control is-invalid" : "form-control"}
+                                                    placeholder="Username"
+                                                    onBlur={this.form.handleBlurEvent}
+                                                    onChange={this.form.handleChangeEvent}
+                                                    value={this.state.fields.username}
+                                                    readOnly={this.state.loadingSubmit}
+                                                />
+
+                                                <span className="input-group-text" id="basic-addon0">
+                                                    <i className="bi bi-person"></i>
+                                                </span>
+
+                                                <div className="invalid-feedback">
+                                                    {this.state.errors.username ? this.state.errors.username : ""}
+                                                </div>
+
+                                            </div>
 
                                             <div className="input-group mb-3">
                                                 

@@ -40,7 +40,7 @@ class Home extends Component{
         await PageService.home().then((response) => {
             setTimeout(() => { 
                 this.setState({
-                    content: response.data,
+                    content: response.data.data,
                     loading: false
                 })
             }, 1500)
@@ -207,21 +207,15 @@ class Home extends Component{
                                     { this.state.loading ? <>
                                         <ShimmerTitle line={5} gap={10} variant="primary" />    
                                     </> : <>
-                                        {this.state.content.testimonials.map((item,index)=>{
-                                            return (
-                                                <Fragment key={index}>
-                                                    <div className="fs-4 mb-4 fst-italic">{item.quote}</div>
-                                                    <div className="d-flex align-items-center justify-content-center">
-                                                        <img className="rounded-circle me-3" width="70" src={this.getPeopleImage()} alt="..." />
-                                                        <div className="fw-bold">
-                                                            {item.name}
-                                                            <span className="fw-bold text-primary mx-1">/</span>
-                                                            {item.positionName}, {item.customer.name}
-                                                        </div>
-                                                    </div>
-                                                </Fragment>
-                                            )
-                                        })}
+                                        <div className="fs-4 mb-4 fst-italic">{this.state.content.testimonial.quote}</div>
+                                            <div className="d-flex align-items-center justify-content-center">
+                                                <img className="rounded-circle me-3" width="70" src={this.getPeopleImage()} alt="..." />
+                                                <div className="fw-bold">
+                                                    {this.state.content.testimonial.name}
+                                                    <span className="fw-bold text-primary mx-1">/</span>
+                                                    {this.state.content.testimonial.position},  {this.state.content.testimonial.customer_name}
+                                                </div>
+                                            </div>
                                     </> }
                                 </div>
                             </div>
@@ -258,9 +252,9 @@ class Home extends Component{
                                                 <img className="card-img-top" src={"https://picsum.photos/id/"+(Math.floor(Math.random() * 100) + 0)+"/600/350"} alt="..." />
                                                 <div className="card-body p-4">
                                                     
-                                                    {item.references.map((category, index)=>{
+                                                    {item.categories.split(",").map((category, index)=>{
                                                         return (
-                                                            <div key={index} className="badge bg-primary bg-gradient rounded-pill mb-2 me-1">{category.name}</div>
+                                                            <div key={index} className="badge bg-primary bg-gradient rounded-pill mb-2 me-1">{category}</div>
                                                         )
                                                     })}
                                                     <NavLink className="text-decoration-none link-dark stretched-link" to={"/article/"+item.slug}>
@@ -271,10 +265,10 @@ class Home extends Component{
                                                 <div className="card-footer p-4 pt-0 bg-transparent border-top-0">
                                                     <div className="d-flex align-items-end justify-content-between">
                                                         <div className="d-flex align-items-center">
-                                                            <img className="rounded-circle me-3"  width="50" src={this.getPeopleImage(item.user.gender)} alt="..." />
+                                                            <img className="rounded-circle me-3"  width="50" src={this.getPeopleImage(item.gender)} alt="..." />
                                                             <div className="small">
-                                                                <div className="fw-bold">{item.user.firstName} {item.user.lastName}</div>
-                                                                <div className="text-muted">{ moment(item.updatedAt.timestamp,'X').fromNow() }</div>
+                                                                <div className="fw-bold">{item.first_name} {item.last_name}</div>
+                                                                <div className="text-muted">{ moment(item.updated_at).fromNow() }</div>
                                                             </div>
                                                         </div>
                                                     </div>

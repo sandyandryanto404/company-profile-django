@@ -14,35 +14,35 @@ import service from './service'
 class PageService {
 
     ping(){
-        return service().get("api/page/ping")
+        return service().get("page/ping")
     }
 
     home(){
-        return service().get("api/page/home")
+        return service().get("page/home")
     }
 
     about(){
-        return service().get("api/page/about")
+        return service().get("page/about")
     }
 
     service(){
-        return service().get("api/page/service")
+        return service().get("page/service")
     }
 
     faq(){
-        return service().get("api/page/faq")
+        return service().get("page/faq")
     }
 
     contact(){
-        return service().get("api/page/contact")
+        return service().get("page/contact")
     }
 
     message(data){
-        return service().post("api/page/message", data)
+        return service().post("page/message", data)
     }
 
     subscribe(data){
-        return service().post("api/page/subscribe", data)
+        return service().post("page/subscribe", data)
     }
 
 }

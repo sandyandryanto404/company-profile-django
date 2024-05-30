@@ -33,7 +33,7 @@ class Service extends Component{
         await PageService.service().then((response) => {
             setTimeout(() => { 
                 this.setState({
-                    content: response.data,
+                    content: response.data.data,
                     loading: false
                 })
             }, 1500)
@@ -200,7 +200,7 @@ class Service extends Component{
                                                             <div className="mb-3 mt-2"  dangerouslySetInnerHTML={{ __html: this.getRate() }}></div>
                                                             <blockquote className="bsb-blockquote-icon mb-4">{item.quote}</blockquote>
                                                             <h4 className="mb-2">{item.name}</h4>
-                                                            <h5 className="fs-6 text-secondary mb-0">{item.positionName}</h5>
+                                                            <h5 className="fs-6 text-secondary mb-0">{item.position}</h5>
                                                         </figcaption>
                                                     </figure>
                                                 </div>

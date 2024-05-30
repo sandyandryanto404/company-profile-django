@@ -46,6 +46,7 @@ class Article(View):
             SELECT
                 a.id,
                 a.title,
+                a.created_at,
                 a.slug,
                 a.description,
                 u.first_name,
@@ -78,7 +79,10 @@ class Article(View):
                 for row in cursor.fetchall() 
             ] 
 
+        total_stories = ArticleModel.objects.filter(status=1).count()
+
         data = {
+            'continue': limit <= total_stories,
             'page': page,
             'new_article': results[0],
             'new_articles': [results[1], results[2], results[3]],

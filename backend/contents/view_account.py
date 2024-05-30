@@ -53,10 +53,6 @@ class Account(View):
         if "email" not in request.data:
             return Response({ 'status': False, 'message': "The field 'email' can not be empty!", 'data': None }, status=status.HTTP_400_BAD_REQUEST)
 
-        if "password" in request.data:
-            if len(request.data["password"]) < 8:
-                return Response({ 'status': False, 'message': "The password must be at least 8 characters.!", 'data': None }, status=status.HTTP_400_BAD_REQUEST)
-
         user_by_username = User.objects.filter(username=request.data["username"]).first() 
         user_by_email = User.objects.filter(email=request.data["email"]).first() 
 
@@ -80,7 +76,7 @@ class Account(View):
 
         user.save()
         
-        user_detail.gender = int(request.data["gender"])
+        user_detail.gender = request.data["gender"]
         user_detail.country = request.data["country"]
         user_detail.address = request.data["address"]
         user_detail.about_me = request.data["about_me"]
@@ -95,7 +91,7 @@ class Account(View):
         
         return Response({ 
             'status': True, 
-            'message': 'ok', 
+            'message': 'Yor profile has been changed !!', 
             'data': data
         }, status=status.HTTP_200_OK)
         

@@ -33,7 +33,7 @@ class Faq extends Component{
         await PageService.faq().then((response) => {
             setTimeout(() => { 
                 this.setState({
-                    content: response.data,
+                    content: response.data.data,
                     loading: false
                 })
             }, 1500)
@@ -64,7 +64,7 @@ class Faq extends Component{
                                 
                                     <h2 className="fw-bolder mb-3">Account &amp; Billing</h2>
                                     <div className="accordion mb-5" id="accordionExample">
-                                        {this.state.content.faqs1.map((item,index)=>{
+                                        {this.state.content.faq1.map((item,index)=>{
                                             return (
                                                 <div key={index} className="accordion-item">
                                                     <h3 className="accordion-header" id={"heading"+item.id}><button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target={"#collapse"+item.id} aria-expanded="true" aria-controls={"collapse"+item.id}>{item.question}</button></h3>
@@ -80,7 +80,7 @@ class Faq extends Component{
                                 
                                     <h2 className="fw-bolder mb-3">Website Issues</h2>
                                     <div className="accordion mb-5 mb-xl-0" id="accordionExample2">
-                                        {this.state.content.faqs2.map((item,index)=>{
+                                        {this.state.content.faq2.map((item,index)=>{
                                             return (
                                                 <div key={index} className="accordion-item">
                                                     <h3 className="accordion-header" id={"heading"+item.id}><button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target={"#collapse"+item.id} aria-expanded="true" aria-controls={"collapse"+item.id}>{item.question}</button></h3>

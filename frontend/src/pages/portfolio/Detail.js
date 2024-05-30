@@ -36,7 +36,7 @@ class Detail extends Component{
         await PortfolioService.detail(id).then((response) => {
             setTimeout(() => { 
                 this.setState({
-                    content: response.data,
+                    content: response.data.data,
                     loading: false
                 })
             }, 1500)

@@ -14,11 +14,11 @@ import service from './service'
 class PortfolioService {
 
     list(){
-        return service().get("api/portfolio/list")
+        return service().get("portfolio/list")
     }
 
     detail(id){
-        return service().get("api/portfolio/detail/"+id)
+        return service().get("portfolio/detail/"+id)
     }
 
 }

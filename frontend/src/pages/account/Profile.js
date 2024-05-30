@@ -21,8 +21,8 @@ class Profile extends Component{
             countries: [],
             imgPreview:"https://dummyimage.com/150x150/343a40/6c757d",
             fields: {
+                username:"",
                 email:"",
-                phone:"",
                 first_name:"",
                 last_name:"",
                 address:"",
@@ -36,8 +36,8 @@ class Profile extends Component{
         this.onChangeCountry = this.onChangeCountry.bind(this)
         this.form = new ReactFormInputValidation(this);
         this.form.useRules({
+            username: "required",
             email: "required|email",
-            phone: "required|numeric|digits_between:10,12",
             first_name:"string",
             last_name:"string",
             address:"string",
@@ -70,7 +70,7 @@ class Profile extends Component{
             await AccountService.profileUpdate(fields).then((result) => {
                 setTimeout(() => {
                     let data = result.data
-                    let success = data.success
+                    let success = data.message
                     this.setState({
                         loadingSubmit: false,
                         success: success,
@@ -81,12 +81,9 @@ class Profile extends Component{
                     }, 1500)
                 }, 2000)
             }).catch((error) => {
-                let response = error.response
-                let data = response.data
-                let message = data.errors
                 this.setState({
                     loadingSubmit: false,
-                    message: message
+                    message: error.response.data.message
                 })
             })
         }
@@ -110,20 +107,22 @@ class Profile extends Component{
             let countries = country.names().sort()
             let defaultImage = this.state.imgPreview
 
+            
+
             if(profile.image){
-                defaultImage = process.env.REACT_APP_BACKEND_URL+"/"+profile.image
+                defaultImage = process.env.REACT_APP_BACKEND_URL+"/page/download/"+profile.image
             }
 
             this.setState({
                 fields: {
+                    username: profile.username,
                     email: profile.email,
-                    phone: profile.phone,
-                    first_name: profile.firstName,
-                    last_name: profile.lastName,
+                    first_name: profile.first_name,
+                    last_name: profile.last_name,
                     address: profile.address,
                     gender: profile.gender,
                     country: profile.country,
-                    about_me: profile.aboutMe
+                    about_me: profile.about_me
                 },
                 countries: countries,
                 loading: false,
@@ -158,8 +157,8 @@ class Profile extends Component{
             await AccountService.upload(formData).then((result) => { 
                 setTimeout(() => {
                     let defaultImage  = this.state.imgPreview
-                    if(result.data.image){
-                        defaultImage = process.env.REACT_APP_BACKEND_URL+"/"+result.data.image
+                    if(result.data.data){
+                        defaultImage =process.env.REACT_APP_BACKEND_URL+"/page/download/"+result.data.data
                     }
                     this.setState({
                         imgPreview: defaultImage,
@@ -287,21 +286,21 @@ class Profile extends Component{
                                                     </div>
                                                 <div className="col-md-6">
                                                     <div className="mb-3 mt-3">
-                                                        <label htmlFor="phone" className="form-label">Phone Number:</label>
+                                                        <label htmlFor="username" className="form-label">Username:</label>
                                                         
                                                         <input
                                                             type="text"
-                                                            name="phone"
-                                                            className={this.state.errors.phone ? "form-control is-invalid" : "form-control"}
+                                                            name="username"
+                                                            className={this.state.errors.username ? "form-control is-invalid" : "form-control"}
                                                             placeholder=""
                                                             onBlur={this.form.handleBlurEvent}
                                                             onChange={this.form.handleChangeEvent}
-                                                            value={this.state.fields.phone}
+                                                            value={this.state.fields.username}
                                                             readOnly={this.state.loadingSubmit}
                                                         />
 
                                                         <div className="invalid-feedback">
-                                                            {this.state.errors.phone ? this.state.errors.phone : ""}
+                                                            {this.state.errors.username ? this.state.errors.username : ""}
                                                         </div>
 
                                                     </div>

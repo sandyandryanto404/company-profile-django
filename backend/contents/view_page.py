@@ -42,6 +42,7 @@ class Page(View):
                 a.id,
                 a.title,
                 a.slug,
+                a.updated_at,
                 a.description,
                 u.first_name,
                 u.last_name,
@@ -82,7 +83,7 @@ class Page(View):
             },
             'sliders': Slider.objects.filter(status=1).order_by("sort").values(),
             'services': Service.objects.filter(status=1).order_by("?")[:4].values(),
-            'testimonial': Testimonial.objects.filter(status=1).order_by("?").values().first(),
+            'testimonial': Testimonial.objects.annotate(customer_name=F('customer__name')).filter(status=1).order_by("?").values().first(),
             'articles':results
         }
         

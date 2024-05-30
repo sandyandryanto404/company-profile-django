@@ -75,9 +75,9 @@ class List extends Component{
                                         </> : <>
                                             <div className="p-4 p-md-5">
 
-                                                {this.state.content.new_article.references.map((category, index)=>{
+                                                {this.state.content.new_article.categories.split(",").map((category, index)=>{
                                                     return (
-                                                        <div key={index}  className="badge bg-primary bg-gradient rounded-pill mb-2">{category.name}</div>
+                                                        <div key={index}  className="badge bg-primary bg-gradient rounded-pill mb-2 me-1">{category}</div>
                                                     )
                                                 })}
 
@@ -128,7 +128,7 @@ class List extends Component{
                                     {this.state.content.new_articles.map((article, index)=>{
                                         return (
                                             <div key={index} className="mb-4">
-                                                <div className="small text-muted">{ moment(article.createdAt.timestamp,'X').fromNow() }</div>
+                                                <div className="small text-muted">{ moment(article.created_at).fromNow() }</div>
                                                 <NavLink className="link-dark" to={"/article/"+article.slug}>
                                                     <h3>{article.title}</h3>
                                                 </NavLink>
@@ -202,11 +202,12 @@ class List extends Component{
                                             <img className="card-img-top" src={"https://picsum.photos/id/"+(Math.floor(Math.random() * 100) + 0)+"/600/350"} alt="..." />
                                             <div className="card-body p-4">
                                                 
-                                                {article.references.map((category, index)=>{
+                                                {article.categories.split(",").map((category, index)=>{
                                                     return (
-                                                        <div key={index} className="badge bg-primary bg-gradient rounded-pill mb-2">{category.name}</div>
+                                                        <div key={index} className="badge bg-primary bg-gradient rounded-pill mb-2 me-1">{category}</div>
                                                     )
                                                 })}
+
                                                 <NavLink className="text-decoration-none link-dark stretched-link" to={"/article/"+article.slug}>
                                                     <div className="h5 card-title mb-3">{article.title}</div>
                                                 </NavLink>
@@ -217,8 +218,8 @@ class List extends Component{
                                                     <div className="d-flex align-items-center">
                                                         <img className="rounded-circle me-3" width={50} src={article.gender === 'M' ? '/male.png' : '/female.png'} alt="..." />
                                                         <div className="small">
-                                                            <div className="fw-bold">{article.firstName} {article.lastName}</div>
-                                                            <div className="text-muted">{ moment(article.createdAt.timestamp,'X').fromNow() }</div>
+                                                            <div className="fw-bold">{article.first_name} {article.last_name}</div>
+                                                            <div className="text-muted">{ moment(article.created_at).fromNow() }</div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -230,7 +231,7 @@ class List extends Component{
                             
                             </> }
                         </div>
-                        { this.state.content.continue ? <>
+                        { this.state.content.continue && !this.state.loading ? <>
                             <div className="text-end mb-5 mb-xl-0">
                                 <a className="text-decoration-none" href="#!" onClick={(e) => this.loadMore(e)}>
                                     More stories

@@ -14,19 +14,19 @@ import service from './service'
 class AccountService {
 
     profileDetail(){
-        return service(false, true).get("api/account/profile")
+        return service(false, true).get("account/profile/detail")
     }
 
     profileUpdate(data){
-        return service(false, true).post("api/account/profile", data)
+        return service(false, true).post("account/profile/update", data)
     }
 
     passwordUpdate(data){
-        return service(false, true).post("api/account/password", data)
+        return service(false, true).post("account/password", data)
     }
 
     upload(data){
-        return service(true, true).post("api/account/upload", data)
+        return service(true, true).post("account/upload", data)
     }
 
 }

@@ -33,7 +33,7 @@ class About extends Component{
         await PageService.about().then((response) => {
             setTimeout(() => { 
                 this.setState({
-                    content: response.data,
+                    content: response.data.data,
                     loading: false
                 })
             }, 1500)
@@ -158,7 +158,7 @@ class About extends Component{
                                             <div className="text-center">
                                                 <img className="img-fluid rounded-circle mb-4 px-4" width="150" src={this.getPeopleImage()} alt="..." />
                                                 <h5 className="fw-bolder">{item.name}</h5>
-                                                <div className="fst-italic text-muted">{item.positionName}</div>
+                                                <div className="fst-italic text-muted">{item.position_name}</div>
                                             </div>
                                         </div>
                                     )
